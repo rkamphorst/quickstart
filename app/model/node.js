@@ -5,12 +5,11 @@
 *
 */
 
-(function() {
-    var ns = Class.ns("osd.mobile.business");
-    
-    ns.FeedItem = Class.extend({
+(function(define) {
 
-		init: function(id, seq, title, date, info, parent) {
+    define("model/node", function() {
+        
+        function Node(id, seq, title, date, info, parent) {
     		this._id = id;
     		this._title = title;
     		this._date = date;
@@ -23,82 +22,82 @@
 	        this._children = null;
 	        this._seq = seq ? seq : 0;
 			this._info = info;
-    	},
-    	
-		getParent: function() {
+        }
+        
+        Node.prototype.getParent = function getParent() {
 			return this._parent;
-		},
+		};
 		
-		getGeneration: function() {
+		Node.prototype.getGeneration = function getGeneration() {
 			return this._generation;
-		},
+		};
 		
-    	getId: function() {
+    	Node.prototype.getId = function getId() {
     		return this._id;
-    	},
+    	};
         
-        getTitle: function() {
+        Node.prototype.getTitle = function getTitle() {
         	return this._title;	
-        },
+        };
         
-        getSeq: function() {
+        Node.prototype.getSeq = function getSeq() {
         	return this._seq;
-        },
+        };
 
-    	getDate: function() {
+    	Node.prototype.getDate = function getDate() {
     		return this._date;
-    	},
+    	};
     	
-		getInfo: function() {
+		Node.prototype.getInfo = function getInfo() {
 			return this._info;
-		},
+		};
 		
-    	getSummary: function() {
+    	Node.prototype.getSummary = function getSummary() {
     		return this._summary;
-    	},
+    	};
 		
-		setSummary: function(summary) {
+		Node.prototype.setSummary = function setSummary(summary) {
 			this._summary = summary;
-		},
+		};
 		
-		clearSummary: function() {
+		Node.prototype.clearSummary = function clearSummary() {
 			this._summary = null;
-		},
+		};
 		
-    	getArticle: function() {
+    	Node.prototype.getArticle = function getArticle() {
     		return this._article;
-    	},
+    	};
         
-    	setArticle: function(content) {
+    	Node.prototype.setArticle = function setArticle(content) {
     		this._article = content;
-    	},
+    	};
 
-    	clearArticle: function() {
+    	Node.prototype.clearArticle = function clearArticle() {
     		this._article = null;
-    	},
-
-        getChildren: function() {
+    	};
+    	
+    	Node.prototype.getChildren = function getChildren() {
         	// return a *copy* of the _children internal array by using .concat()
         	return this._children ? this._children.concat() : null;
-        },
+        };
         
-        setChildren: function(items) {
+        Node.prototype.setChildren = function setChildren(items) {
         	this._children = items ? items.concat() : null;
-        },
+        };
         
-        clearChildren: function() {
+        Node.prototype.clearChildren = function clearChildren() {
         	this._children = null;
-        },
+        };
         
-        createChild: function(id, seq, title, date, info) {
+        Node.prototype.createChild = function createChild(id, seq, title, date, info) {
         	return new ns.FeedItem(id, seq, title, date, info, this);
-        },
+        };
 		
-    	toString: function() {
-    		return "FeedItem " + this._id + ": " + this._title;
-    	},
+    	Node.prototype.toString = function toString() {
+    		return "Node " + this._id + ": " + this._title;
+    	};
 		
-    	withChildren: function(callback) {
+    	Node.prototype.withChildren = function withChildren(callback) {
 			var items = this.getChildren();
 			if (items != null) {
 				if (callback) callback(items);
@@ -110,9 +109,9 @@
 				});
 			}
 
-		},
+		};
 
-		withChildArticles: function(callback) {
+		Node.prototype.withChildArticles = function withChildArticles(callback) {
 			this.withChildren(function(children) {
 				var countDown = children.length;
 				if (countDown == 0) {
@@ -131,9 +130,9 @@
 					}
 				}
 			});
-		},
+		};
 
-		withArticle: function(callback) {
+		Node.prototype.withArticle = function withArticle(callback) {
 			var article = this.getArticle();
 			if (article != null) {
 				if (callback) callback(article);
@@ -144,16 +143,25 @@
 					if (callback) callback(article);
 				});
 			}
-		},		
+		};		
 
 		
-    	fetchChildren: function(callback) {
+    	Node.prototype.fetchChildren = function fetchChildren(callback) {
     		throw new Error("fetchChildren is abstract");
-    	},
+    	};
 
-    	fetchArticle: function(callback) {
+    	Node.prototype.fetchArticle = function fetchArticle(callback) {
     		throw new Error("fetchArticle is abstract");	
-    	}		
+    	};
+    		
     });
     
-})();
+})(typeof define == 'function'
+        // AMD
+        ? define
+        // CommonJS
+        : function(deps, factory) {
+                module.exports = factory.apply(this, [require].concat(deps.slice(1).map(function(x) {
+                        return require(x);
+                })));
+        });

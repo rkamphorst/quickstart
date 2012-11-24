@@ -10,9 +10,9 @@
  * 
  * MIT Licensed.
  * 
- * Reinder Kamphorst added:
- * - Class.decorate
- * - Class.ns
+ * Changes by Reinder Kamphorst:
+ * - Added Class.decorate
+ * - Converted to AMD module
  */
 // Inspired by base2 and Prototype
 (function(define){
@@ -23,7 +23,7 @@
         var fnDecoreeTest = /xyz/.test(function(){xyz;}) ? /\b_decoree\b/ : /.*/;
 
         // The base Class implementation (does nothing)
-        this.Class = function(){};
+        var Class = function(){};
         
         // Create a new Class that inherits from this class
         Class.extend = function(prop) {
@@ -171,30 +171,7 @@
             return DecoratorClass;
         };
         
-        var glob = this;
-        
-        /**
-        * ns: get a namespace object
-        */
-        Class.ns = function() {
-            var curNs = glob;
-            var len = arguments.length;
-            var i = 0;
-            if (len > 0 && typeof arguments[i] == "object") {
-                curNs = arguments[i];
-                i = 1;
-            }
-            for (i = i; i < len; i++) {
-                var parts = arguments[i].split(".");
-                for (var j = 0; j < parts.length; j++) {
-                    if (!(parts[j] in curNs)) {
-                        curNs[parts[j]] = {};
-                    }
-                    curNs = curNs[parts[j]];
-                }
-            }
-            return curNs;
-        };
+        return Class;
     });
   
 })(typeof define == 'function'
