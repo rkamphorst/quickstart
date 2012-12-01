@@ -17,17 +17,26 @@
             globalNodeIndex = {};
 
         function Node(id, seq, title, summary, date, info) {
-            this._id = id;
-            this._title = title;
-            this._summary = summary;
-            this._date = date;
-            this._info = info;
-            this._seq = seq || 0;
+            if (arguments.length == 1 && typeof arguments[0] == "object") {
+                id = arguments[0].nid;
+                seq = arguments[0].seq;
+                title = arguments[0].title;
+                summary = arguments[0].summary;
+                date = arguments[0].date;
+                info = arguments[0].info;
+            } else {
+                this._id = id;
+                this._title = title;
+                this._summary = summary;
+                this._date = date;
+                this._info = info;
+                this._seq = seq || 0;
 
-            this._content = null;
-            this._parent = null;
-            this._generation = null;
-            this._children = null;
+                this._content = null;
+                this._parent = null;
+                this._generation = null;
+                this._children = null;
+            }
         }
 
         Node.prototype.getParent = function getParent() {
@@ -210,7 +219,7 @@
             }
 
             if (nids.length > 0) {
-                return fetchNodes(nids)
+                return fetchTrees(nids, 0)
                     .then(function (newNodes) {
                     var i, nid;
                     for (i = 0; i < newNodes.length; i += 1) {
@@ -427,7 +436,6 @@
         Node.withDescendantContent = withDescendantContent;
 
         return Node;
-
     });
 
 }(typeof this.define === 'function'
