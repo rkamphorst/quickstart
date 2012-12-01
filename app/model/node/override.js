@@ -1,4 +1,5 @@
-/*jslint nomen: true, white: true, browser: true, node: true, indent: 4 */
+/*jslint nomen: true, regexp: true, white: true, browser: true, node: true, indent: 4 */
+
 /*
  * Ordina, OSD Mobile
  *
