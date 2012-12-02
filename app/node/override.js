@@ -14,10 +14,10 @@
         var
         /**
          * Index that contains overlays for nodes.
-         * It is a 2-level dictionary object. 
-         * Keys on level 1 are property names, keys on level 2 are 
+         * It is a 2-level dictionary object.
+         * Keys on level 1 are property names, keys on level 2 are
          * property values (all lowercase). Nodes are matched, in the order
-         * specified in searchKeys, on property key-value pairs. 
+         * specified in searchKeys, on property key-value pairs.
          * The first match is returned.
          */
         searchIndex = {},
@@ -147,18 +147,18 @@
          *       ...
          *    ]
          * });
-         * 
+         *
          * curl(["model/node/override!myoverrides"], callback, errback);
          */
         return {
             load: function (name, require, load /*, config */ ) {
                 when(require([name]),
-
-                function (def) {
-                    loadDefinition(def);
-                    load(Node);
-                },
-                load.error);
+                    function (def) {
+                        loadDefinition(def);
+                        load(Node);
+                    },
+                    load.error
+                );
             }
         };
 
