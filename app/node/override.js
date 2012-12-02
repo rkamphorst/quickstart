@@ -7,7 +7,7 @@
  *
  */ (function (define) {
 
-    'use strict';
+    "use strict";
 
     define(["when", "meld", "./node"], function (when, meld, Node) {
 
@@ -164,7 +164,7 @@
 
     });
 
-}(typeof this.define === 'function'
+}(typeof this.define === "function"
 // AMD
 ?
 this.define
@@ -173,7 +173,7 @@ this.define
 
 
 function (deps, factory) {
-    'use strict';
+    "use strict";
     module.exports = factory.apply(this, [require].concat(deps.slice(1).map(function (x) {
         return require(x);
     })));
